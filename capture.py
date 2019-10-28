@@ -31,6 +31,7 @@ class CaptureImage(threading.Thread):
             if self.stopped():
                 return
             file = "dataset/{0}-{1}.jpg".format("A", time.time())
+            print(file)
             cv2.imwrite(file, self._camera.value)
             time.sleep(1)
 
