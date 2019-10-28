@@ -14,12 +14,12 @@ camera = CSICamera(width=224, height=224)
 
 camera.running = True
 
-def thread_function(name):
-    print("capturing")
-    cv2.imwrite("dataset/{0}-{1}.jpg".format("A", time.time()), camera.value)
-    print("done")
-    logging.info("Thread %s: starting", name)
-    time.sleep(.2)
+# def thread_function(name):
+#     print("capturing")
+#     cv2.imwrite("dataset/{0}-{1}.jpg".format("A", time.time()), camera.value)
+#     print("done")
+#     logging.info("Thread %s: starting", name)
+#     time.sleep(.2)
 
 #x = threading.Thread(target=thread_function, args=(100,))
 #x.start()

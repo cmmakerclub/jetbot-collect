@@ -2,17 +2,23 @@ import warnings
 warnings.filterwarnings("ignore")
 from os import system, name
 
-"""Simple example showing how to get gamepad events."""
-
-#from __future__ import print_function 
-from inputs import get_gamepad
-from jetbot import Robot
+from jetcam.csi_camera import CSICamera
+import cv2
 import time
+from jetbot import Robot
+import logging
+#from threading import Thread
+import threading
+from inputs import get_gamepad
 import sys
-
 import numpy as np
+# from jetcam.usb_camera import USBCamera
 
 robot = Robot()
+camera = CSICamera(width=224, height=224)
+# camera = USBCamera(width=224, height=224)
+
+camera.running = True
 
 motor_left_value = 0
 motor_right_value = 0
@@ -22,7 +28,6 @@ x_val = 0;
 
 print("Jetbot Started....")
 
-import threading
 def thread_function(name):
     while True:
         #if y_val > 0:
@@ -39,10 +44,16 @@ def thread_function(name):
         
         robot.left_motor.value = motor_l
         robot.right_motor.value = motor_r
-
-x = threading.Thread(target=thread_function, args=(1,))
-x.start()
-
+        
+        print("capturing")
+        cv2.imwrite("dataset-road/{0}-{1}.jpg".format("A", time.time()), camera.value)
+        print("done")
+        logging.info("Thread %s: starting", name)
+        time.sleep(.2)
+        
+threads = threading.Thread(target=thread_function, args=(1,))
+threads.start()
+        
 def throttle(state):
     global y_val
     global motor_left_value, motor_right_value
@@ -70,22 +81,15 @@ event_lut = {
     'ABS_Z' : steering,
 }
 
-#    'BTN_MODE': reset,
-#    'BTN_START' : hello,
-#    'BTN_NORTH' : lambda z: wave(z, 'right'),
-#    'BTN_SOUTH' : celebrate,
-#    'BTN_EAST' : circledance,
-#    'BTN_WEST' : lambda z: wave(z, 'left'), #    'BTN_TR' : kick_right,
-#    'BTN_TL' : kick_left,
-#    'BTN_THUMBR' : kick_right,
-#    'BTN_THUMBL' : kick_left,
-#    'ABS_X' : turn,
-#    'ABS_Y' : lambda x: walk(x, 23000),
-#    'ABS_RX' : eyes,
-#    'ABS_RY' : None, #lean,
-#    'ABS_HAT0X': sidestep,
-#    'ABS_HAT0Y': lambda x: walk(x, 0.5),
 
+# def thread_function(name):
+#     print("capturing")
+#     cv2.imwrite("dataset-road/{0}-{1}.jpg".format("A", time.time()), camera.value)
+#     print("done")
+#     logging.info("Thread %s: starting", name)
+#     time.sleep(1)
+    
+    
 def main():
     events = get_gamepad()
     for event in events: 
@@ -93,17 +97,19 @@ def main():
         call = event_lut.get(event.code)
         if callable(call):
             call(event.state)
-    
-
-if __name__ == "__main__":
-    #pads = inputs.devices.gamepads
-    #if len(pads) == 0:
-    #    raise Exception("{}Couldn't find any Gamepads!{}".format(fg('red'), attr('reset')))
+            
+i = 0;
+while True: 
     try:
         while True:
             main()
-#             event_loop(inputs.get_gamepad())
     except KeyboardInterrupt:
         x.stop()
         print("Bye!")
         sys.exit()
+
+#     print("capturing")
+#     cv2.imwrite("dataset-road/{0}-{1}.jpg".format("A", time.time()), camera.value)
+#     time.sleep(1) 
+#     print("done")
+    
