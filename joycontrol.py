@@ -71,7 +71,8 @@ event_lut = {
 def main():
     events = get_gamepad()
     for event in events:
-        # print(event.ev_type, event.code, event.state)
+        print(event.ev_type, event.code, event.state)
+
         call = event_lut.get(event.code)
         if callable(call):
             call(event.state)
@@ -79,10 +80,9 @@ def main():
 
 from capture import CaptureImage
 
-tt = CaptureImage()
-tt.run()
-
 if __name__ == "__main__":
+    tt = CaptureImage()
+    tt.run()
     # pads = inputs.devices.gamepads
     # if len(pads) == 0:
     #    raise Exception("{}Couldn't find any Gamepads!{}".format(fg('red'), attr('reset')))
