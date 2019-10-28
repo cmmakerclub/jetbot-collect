@@ -14,11 +14,13 @@ class CaptureImage(threading.Thread):
         super(CaptureImage, self).__init__(*args, **kwargs)
         self._stop = threading.Event()
         self._camera = CSICamera(width=224, height=224)
+        self._camera.running = True
         print("camera was init :)")
 
         # function using _stop function
 
     def stop(self):
+        self._camera.running = False
         self._stop.set()
 
     def stopped(self):
@@ -28,15 +30,16 @@ class CaptureImage(threading.Thread):
         while True:
             if self.stopped():
                 return
-            print("Hello, world!")
+            file = "dataset/{0}-{1}.jpg".format("A", time.time())
+            cv2.imwrite(file, self._camera.value)
             time.sleep(1)
 
-    def capture(self, cls, len):
-        self._camera.running = True
-        # cv2.imwrite("dataset/{0}-{1}.jpg".format("A", time.time()), camera.value)
-        # cap = cv2.VideoCapture(0)
-        # print("myfunc started")
-        # for i in range(0, len):
-        #     ret, frame = cap.read()
-        #     cv2.imwrite("dataset/{0}/{1}.jpg".format(cls, time.time()), frame)
-        #     print("saved")
+    # def capture(self, cls, len):
+    #
+    #     # cv2.imwrite("dataset/{0}-{1}.jpg".format("A", time.time()), camera.value)
+    #     # cap = cv2.VideoCapture(0)
+    #     # print("myfunc started")
+    #     # for i in range(0, len):
+    #     #     ret, frame = cap.read()
+    #     #     cv2.imwrite("dataset/{0}/{1}.jpg".format(cls, time.time()), frame)
+    #     #     print("saved")

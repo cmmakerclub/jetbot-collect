@@ -91,6 +91,7 @@ if __name__ == "__main__":
             main()
     #             event_loop(inputs.get_gamepad())
     except KeyboardInterrupt:
+        tt.stop()
         x.stop()
         print("Bye!")
         sys.exit()
