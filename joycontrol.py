@@ -77,7 +77,7 @@ def main():
             call(event.state)
 
 
-import CaptureImage
+from .CaptureImage import CaptureImage
 
 tt = CaptureImage()
 tt.run()
