@@ -28,15 +28,6 @@ import threading
 
 def thread_function(name):
     while True:
-        # if y_val > 0:
-        #    print("................", y_val)
-        # else:
-        #    print("................" )
-        # print(x_val)
-        # if y_val < 0:
-        #    print("................", y_val)
-        # else:
-        #    print("................" )
         motor_r = .3 * y_val - .15 * x_val
         motor_l = .3 * y_val + .15 * x_val
 
