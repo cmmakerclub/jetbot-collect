@@ -82,7 +82,7 @@ from capture import CaptureImage
 
 if __name__ == "__main__":
     tt = CaptureImage()
-    tt.run()
+    tt.start()
     # pads = inputs.devices.gamepads
     # if len(pads) == 0:
     #    raise Exception("{}Couldn't find any Gamepads!{}".format(fg('red'), attr('reset')))
