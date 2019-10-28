@@ -33,7 +33,7 @@ class CaptureImage(threading.Thread):
             file = "dataset/{0}-{1}.jpg".format("A", time.time())
             print(file)
             cv2.imwrite(file, self._camera.value)
-            time.sleep(1)
+            time.sleep(.2)
 
     # def capture(self, cls, len):
     #
