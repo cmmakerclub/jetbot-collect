@@ -1,4 +1,5 @@
 import warnings
+from jetcam.csi_camera import CSICamera
 
 warnings.filterwarnings("ignore")
 from os import system, name
@@ -67,22 +68,6 @@ event_lut = {
 }
 
 
-#    'BTN_MODE': reset,
-#    'BTN_START' : hello,
-#    'BTN_NORTH' : lambda z: wave(z, 'right'),
-#    'BTN_SOUTH' : celebrate,
-#    'BTN_EAST' : circledance,
-#    'BTN_WEST' : lambda z: wave(z, 'left'), #    'BTN_TR' : kick_right,
-#    'BTN_TL' : kick_left,
-#    'BTN_THUMBR' : kick_right,
-#    'BTN_THUMBL' : kick_left,
-#    'ABS_X' : turn,
-#    'ABS_Y' : lambda x: walk(x, 23000),
-#    'ABS_RX' : eyes,
-#    'ABS_RY' : None, #lean,
-#    'ABS_HAT0X': sidestep,
-#    'ABS_HAT0Y': lambda x: walk(x, 0.5),
-
 def main():
     events = get_gamepad()
     for event in events:
@@ -91,6 +76,11 @@ def main():
         if callable(call):
             call(event.state)
 
+
+import CaptureImage
+
+tt = CaptureImage()
+tt.run()
 
 if __name__ == "__main__":
     # pads = inputs.devices.gamepads
